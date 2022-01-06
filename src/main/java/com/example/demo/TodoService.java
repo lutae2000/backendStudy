@@ -28,6 +28,7 @@ public class TodoService {
         todoRepository.save(entity);
         log.info("Entity ID: {} is saved", entity.getId());
         return todoRepository.findByUserId(entity.getUserId());
+
     }
 
     public void validate(final TodoEntity entity){
