@@ -18,7 +18,7 @@ public class UserService {
             throw new RuntimeException("Invalid arguments");
         }
         final String email = userEntity.getEmail();
-        if(userRepository.existByEmail(email)){
+        if(userRepository.existsByEmail(email)){
             log.warn("Email already exists {}", email);
             throw new RuntimeException("Email already exists");
         }
