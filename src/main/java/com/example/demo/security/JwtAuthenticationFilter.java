@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/*JWT 토큰 유효성 검증을 한다*/
+
 @Slf4j
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -27,32 +29,38 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        try{
+        try {
+            // 리퀘스트에서 토큰 가져오기.
             String token = parseBearerToken(request);
-            log.info("servlet is running!");
-            if(token!=null && !token.equalsIgnoreCase("null")){
+            log.info("Filter is running...");
+            // 토큰 검사하기. JWT이므로 인가 서버에 요청 하지 않고도 검증 가능.
+            if (token != null && !token.equalsIgnoreCase("null")) {
+                // userId 가져오기. 위조 된 경우 예외 처리 된다.
                 String userId = tokenProvider.validateAndGetUserId(token);
-                log.info("Authenticated user ID: " + userId);
-                AbstractAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        userId, null, AuthorityUtils.NO_AUTHORITIES
+                log.info("Authenticated user ID : " + userId );
+                // 인증 완료; SecurityContextHolder에 등록해야 인증된 사용자라고 생각한다.
+                AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userId, // 인증된 사용자의 정보. 문자열이 아니어도 아무거나 넣을 수 있다.
+                        null, //
+                        AuthorityUtils.NO_AUTHORITIES
                 );
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails((request)));
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-                securityContext.setAuthentication(authenticationToken);
+                securityContext.setAuthentication(authentication);
                 SecurityContextHolder.setContext(securityContext);
             }
-        } catch(Exception e){
-            logger.error("Could you set user authentication in security context", e);
+        } catch (Exception ex) {
+            logger.error("Could not set user authentication in security context", ex);
         }
+
         filterChain.doFilter(request, response);
     }
 
-    private String parseBearerToken(HttpServletRequest request){
+    private String parseBearerToken(HttpServletRequest request) {
+        // Http 리퀘스트의 헤더를 파싱해 Bearer 토큰을 리턴한다.
         String bearerToken = request.getHeader("Authorization");
 
-        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("bearer ")){
-            log.debug("bearerToken.substring(7): {}", bearerToken.substring(7));
-
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
         return null;
