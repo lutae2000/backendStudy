@@ -1,0 +1,17 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    username: my
+    url: jdbc:mysql://192.168.31.7:33066/WEB?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+    password: wnsikghltk
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  servlet:
+    jsp:
+      init-parameters:
+        development: 'true'
+logging:
+  level:
+    root: info

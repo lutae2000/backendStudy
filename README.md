@@ -16,3 +16,12 @@
 ![스크린샷 2022-01-02 오전 4 16 11](https://user-images.githubusercontent.com/40047335/147858457-e94eae7d-9c5e-4809-b06f-09257b821fbd.png)
 
 
+AWS RDS 구성 설명
+```
+$ rds describe-db-instances --region [리전]
+```
+
+AWS Auto Scaling group
+```
+$ aws autoscaling describe-auto-scaling-groups --region [리전]
+```
