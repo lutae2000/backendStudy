@@ -16,6 +16,18 @@
 ![스크린샷 2022-01-02 오전 4 16 11](https://user-images.githubusercontent.com/40047335/147858457-e94eae7d-9c5e-4809-b06f-09257b821fbd.png)
 
 
+AWS Elastic Beantalk 생성
+```
+$ create eb -- 
+```
+
+AWS Elastic Beantalk 배포
+```
+$ gradlew build 
+$ eb deploy
+```
+
+
 AWS RDS 구성 설명
 ```
 $ rds describe-db-instances --region [리전]
@@ -25,3 +37,11 @@ AWS Auto Scaling group
 ```
 $ aws autoscaling describe-auto-scaling-groups --region [리전]
 ```
+
+
+
+배포중 이슈사항
+1. AWS Elastic BeanTalk 배포시 Git이 연동 되어있을때 .git 을 삭제 하거나 Commit & Push 를 모두 해야만 수정된 빌드버전으로 업로드 됨
+2. DNS가 변경된 경우 CORS 허용을 해야 함(SSL적용후 HTTPS 인 경우에도 포함)
+
+
