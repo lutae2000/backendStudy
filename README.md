@@ -57,5 +57,3 @@ $ aws autoscaling describe-auto-scaling-groups --region [리전]
 배포중 이슈사항
 1. AWS Elastic BeanTalk 배포시 Git이 연동 되어있을때 .git 을 삭제 하거나 Commit & Push 를 모두 해야만 수정된 빌드버전으로 업로드 됨
 2. DNS가 변경된 경우 CORS 허용을 해야 함(SSL적용후 HTTPS 인 경우에도 포함)
-
-
