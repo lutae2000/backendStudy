@@ -31,7 +31,8 @@ Servlet filter는 여러개를 만들어서 사용할 수 있음
 
 AWS Elastic Beantalk 생성
 ```
-$ create eb -- 
+$ eb init
+$ eb create --elb-type application --instance-type t3.micro
 ```
 
 AWS Elastic Beantalk 배포
